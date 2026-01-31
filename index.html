@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DineLogic | Culinary Intelligence</title>
     
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,10 +16,8 @@
       .glass-sidebar { background: linear-gradient(180deg, #1a1c18 0%, #121411 100%); }
       .card-gradient { background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%); }
       .premium-shadow { box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08); }
-      
-      /* Simple transition for the splash screen */
+      #dashboard { display: none; opacity: 0; transition: opacity 0.5s ease-in; }
       #splash-screen { transition: opacity 0.5s ease-out; }
-      .hidden-fade { opacity: 0; pointer-events: none; }
     </style>
 </head>
 <body class="antialiased">
@@ -30,75 +26,92 @@
         <div class="card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full">
             <h1 class="text-5xl font-bold text-[#1a1c18] mb-2 font-serif">DineLogic</h1>
             <p class="text-[#d4af37] font-medium tracking-[0.2em] uppercase text-[10px] mb-8">Culinary Intelligence</p>
-            <button id="enter-btn" class="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl active:scale-95">
+            <button onclick="enterDashboard()" class="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl active:scale-95">
                 Enter Dashboard
             </button>
         </div>
     </div>
 
-    <div id="root"></div>
+    <div id="dashboard" class="flex min-h-screen">
+        <aside class="w-64 glass-sidebar p-6 flex flex-col hidden lg:flex fixed h-full">
+            <h2 class="text-[#d4af37] text-2xl font-serif font-bold italic mb-10">DineLogic</h2>
+            <nav class="space-y-4">
+                <div class="text-[#d4af37] text-sm font-bold cursor-pointer">● Kitchen Overview</div>
+                <div class="text-gray-500 text-sm cursor-pointer hover:text-gray-300">○ Menu Optimizer</div>
+                <div class="text-gray-500 text-sm cursor-pointer hover:text-gray-300">○ Inventory</div>
+            </nav>
+        </aside>
+
+        <main class="flex-1 lg:ml-64 p-6 md:p-10">
+            <header class="mb-10 flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-[#1a1c18] font-serif">Executive Dashboard</h1>
+                    <p class="text-gray-400 text-sm">System status: <span class="text-green-600 font-bold">Optimal</span></p>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-[#1a1c18] text-[#d4af37] flex items-center justify-center font-bold">CH</div>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="card-gradient p-6 rounded-2xl premium-shadow border border-gray-100">
+                    <p class="text-xs text-gray-400 font-bold uppercase">Revenue</p>
+                    <h3 class="text-2xl font-bold mt-2 text-[#1a1c18]">$4,280.50</h3>
+                    <p class="text-green-600 text-xs mt-2 font-bold">↑ 12.5%</p>
+                </div>
+                <div class="card-gradient p-6 rounded-2xl premium-shadow border border-gray-100">
+                    <p class="text-xs text-gray-400 font-bold uppercase">Turnover</p>
+                    <h3 class="text-2xl font-bold mt-2 text-[#1a1c18]">42 min</h3>
+                    <p class="text-green-600 text-xs mt-2 font-bold">↑ 8.2%</p>
+                </div>
+                <div class="card-gradient p-6 rounded-2xl premium-shadow border border-gray-100">
+                    <p class="text-xs text-gray-400 font-bold uppercase">Waste</p>
+                    <h3 class="text-2xl font-bold mt-2 text-[#1a1c18]">14.2%</h3>
+                    <p class="text-green-600 text-xs mt-2 font-bold">↑ 5.1%</p>
+                </div>
+            </div>
+
+            <div class="card-gradient rounded-3xl p-8 premium-shadow border border-gray-100">
+                <h3 class="text-xl font-bold font-serif mb-6 text-[#1a1c18]">Top Performing Items</h3>
+                <div class="space-y-4">
+                    <div class="p-4 bg-white/50 rounded-xl border flex justify-between items-center hover:border-[#d4af37] transition-all">
+                        <span class="font-bold text-[#1a1c18]">Wagyu Ribeye</span>
+                        <span class="bg-[#2d5a27]/10 text-[#2d5a27] px-3 py-1 rounded-full font-bold text-xs">24% Share</span>
+                    </div>
+                    <div class="p-4 bg-white/50 rounded-xl border flex justify-between items-center hover:border-[#d4af37] transition-all">
+                        <span class="font-bold text-[#1a1c18]">Truffle Risotto</span>
+                        <span class="bg-[#2d5a27]/10 text-[#2d5a27] px-3 py-1 rounded-full font-bold text-xs">18% Share</span>
+                    </div>
+                    <div class="p-4 bg-white/50 rounded-xl border flex justify-between items-center hover:border-[#d4af37] transition-all">
+                        <span class="font-bold text-[#1a1c18]">Saffron Sea Bass</span>
+                        <span class="bg-[#2d5a27]/10 text-[#2d5a27] px-3 py-1 rounded-full font-bold text-xs">12% Share</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <script>
-        const e = React.createElement;
-
-        // Dashboard Component
-        function Dashboard() {
-            return e('div', { className: 'flex min-h-screen' },
-                e('aside', { className: 'w-64 glass-sidebar p-6 flex flex-col hidden lg:flex fixed h-full' },
-                    e('h2', { className: 'text-[#d4af37] text-2xl font-serif font-bold italic mb-10' }, 'DineLogic'),
-                    e('nav', { className: 'space-y-4' },
-                        e('div', { className: 'text-[#d4af37] text-sm font-bold cursor-pointer' }, '• Kitchen Overview'),
-                        e('div', { className: 'text-gray-500 text-sm cursor-pointer hover:text-gray-300' }, '• Menu Optimizer'),
-                        e('div', { className: 'text-gray-500 text-sm cursor-pointer hover:text-gray-300' }, '• Inventory')
-                    )
-                ),
-                e('main', { className: 'flex-1 lg:ml-64 p-6 md:p-10' },
-                    e('header', { className: 'mb-10 flex justify-between items-center' },
-                        e('div', null, 
-                            e('h1', { className: 'text-3xl font-bold text-[#1a1c18] font-serif' }, 'Executive Dashboard'),
-                            e('p', { className: 'text-gray-400 text-sm' }, 'System status: Optimal')
-                        ),
-                        e('div', { className: 'w-10 h-10 rounded-xl bg-[#1a1c18] text-[#d4af37] flex items-center justify-center font-bold' }, 'CH')
-                    ),
-                    e('div', { className: 'grid grid-cols-1 md:grid-cols-3 gap-6 mb-10' },
-                        [
-                            { t: 'Revenue', v: '$4,280.50' },
-                            { t: 'Turnover', v: '42 min' },
-                            { t: 'Waste', v: '14.2%' }
-                        ].map(s => e('div', { key: s.t, className: 'card-gradient p-6 rounded-2xl premium-shadow border' },
-                            e('p', { className: 'text-xs text-gray-400 font-bold uppercase' }, s.t),
-                            e('h3', { className: 'text-2xl font-bold mt-2' }, s.v)
-                        ))
-                    ),
-                    e('div', { className: 'card-gradient rounded-3xl p-8 premium-shadow border' },
-                        e('h3', { className: 'text-xl font-bold font-serif mb-6' }, 'Top Performing Items'),
-                        e('div', { className: 'space-y-4' },
-                            ['Wagyu Ribeye', 'Truffle Risotto', 'Saffron Sea Bass'].map(item => 
-                                e('div', { key: item, className: 'p-4 bg-white/50 rounded-xl border flex justify-between items-center' },
-                                    e('span', { className: 'font-bold text-[#1a1c18]' }, item),
-                                    e('span', { className: 'text-[#2d5a27] font-bold text-sm' }, 'High Performance')
-                                )
-                            )
-                        )
-                    )
-                )
-            );
+        // No React needed. Standard JS handles the switch.
+        function enterDashboard() {
+            const splash = document.getElementById('splash-screen');
+            const dash = document.getElementById('dashboard');
+            
+            // Fade out splash
+            splash.style.opacity = '0';
+            
+            setTimeout(() => {
+                splash.style.display = 'none';
+                // Show dashboard
+                dash.style.display = 'flex';
+                setTimeout(() => {
+                    dash.style.opacity = '1';
+                }, 50);
+            }, 500);
         }
 
-        // Initialize Application
-        document.addEventListener('DOMContentLoaded', () => {
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-            const splash = document.getElementById('splash-screen');
-            const enterBtn = document.getElementById('enter-btn');
-
-            enterBtn.addEventListener('click', () => {
-                // Render the React dashboard
-                root.render(e(Dashboard));
-                // Hide splash
-                splash.classList.add('hidden-fade');
-                setTimeout(() => splash.style.display = 'none', 500);
-            });
-        });
+        // Just in case Tailwind fails to load, we'll log it
+        window.onerror = function() {
+            console.log("A script failed to load. Check your internet connection.");
+        };
     </script>
 </body>
 </html>
