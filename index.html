@@ -8,126 +8,92 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@19/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-      :root {
-        --bg-champagne: #fdfcf7;
-        --deep-forest: #1a1c18;
-        --saffron: #d4af37;
-      }
-      body { 
-        font-family: 'Plus Jakarta Sans', sans-serif; 
-        background-color: var(--bg-champagne);
-        margin: 0;
-      }
-      h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+      :root { --bg-champagne: #fdfcf7; --saffron: #d4af37; }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-champagne); margin: 0; }
+      h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
       .glass-sidebar { background: linear-gradient(180deg, #1a1c18 0%, #121411 100%); }
       .card-gradient { background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%); }
       .premium-shadow { box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08); }
     </style>
 </head>
 <body class="antialiased">
-    <div id="root">
-        <div id="loading-state" class="min-h-screen flex items-center justify-center">
-            <p class="text-gray-400 animate-pulse">Initializing DineLogic Intelligence...</p>
-        </div>
-    </div>
+    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState } = React;
-
-        const SidebarItem = ({ label, active }) => (
-            <div className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all ${active ? 'bg-[#d4af37] text-white shadow-md' : 'text-gray-400 hover:bg-white/5'}`}>
-                <div className={`w-2 h-2 rounded-full ${active ? 'bg-white' : 'bg-gray-600'}`}></div>
-                <span className="font-medium text-sm">{label}</span>
-            </div>
-        );
-
-        const StatCard = ({ title, value, trend }) => (
-            <div className="card-gradient p-6 rounded-2xl border border-gray-100 premium-shadow">
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{title}</p>
-                <h3 className="text-2xl font-bold mt-2 text-[#1a1c18]">{value}</h3>
-                <p className="text-green-600 text-xs mt-2 font-bold">↑ {trend}</p>
-            </div>
-        );
+    <script>
+        // We use standard JS so the browser doesn't have to "guess" or "compile"
+        const e = React.createElement;
 
         function App() {
-            const [isInitialized, setIsInitialized] = useState(false);
+            const [isInitialized, setIsInitialized] = React.useState(false);
 
             if (!isInitialized) {
-                return (
-                    <div className="min-h-screen flex items-center justify-center bg-[#fdfcf7] p-6">
-                        <div className="card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full">
-                            <h1 className="text-5xl font-bold text-[#1a1c18] mb-2">DineLogic</h1>
-                            <p className="text-[#d4af37] font-medium tracking-[0.2em] uppercase text-[10px] mb-8">Culinary Intelligence</p>
-                            <button 
-                                onClick={() => setIsInitialized(true)}
-                                className="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl active:scale-95"
-                            >
-                                Enter Dashboard
-                            </button>
-                        </div>
-                    </div>
+                return e('div', { className: 'min-h-screen flex items-center justify-center p-6' },
+                    e('div', { className: 'card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full' },
+                        e('h1', { className: 'text-5xl font-bold text-[#1a1c18] mb-2 font-serif' }, 'DineLogic'),
+                        e('p', { className: 'text-[#d4af37] font-medium tracking-[0.2em] uppercase text-[10px] mb-8' }, 'Culinary Intelligence'),
+                        e('button', { 
+                            className: 'w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl',
+                            onClick: () => setIsInitialized(true)
+                        }, 'Enter Dashboard')
+                    )
                 );
             }
 
-            return (
-                <div className="flex min-h-screen">
-                    <aside className="w-64 glass-sidebar p-6 flex flex-col hidden lg:flex fixed h-full">
-                        <div className="mb-10 px-3">
-                            <h2 className="text-[#d4af37] text-2xl font-serif font-bold italic">DineLogic</h2>
-                        </div>
-                        <nav className="space-y-2 flex-1">
-                            <SidebarItem label="Kitchen Overview" active />
-                            <SidebarItem label="Menu Optimizer" />
-                            <SidebarItem label="Inventory" />
-                            <SidebarItem label="AI Insights" />
-                        </nav>
-                    </aside>
-
-                    <main className="flex-1 lg:ml-64 p-6 md:p-10">
-                        <header className="flex justify-between items-center mb-10">
-                            <div>
-                                <h1 className="text-3xl font-bold text-[#1a1c18] font-serif">Executive Dashboard</h1>
-                                <p className="text-gray-400 text-sm">System status: <span className="text-green-600 font-bold">Optimal</span></p>
-                            </div>
-                            <div className="w-10 h-10 rounded-xl bg-[#1a1c18] text-[#d4af37] flex items-center justify-center font-bold">CH</div>
-                        </header>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                            <StatCard title="Daily Revenue" value="$4,280.50" trend="12.5%" />
-                            <StatCard title="Turnover Rate" value="42 min" trend="8.2%" />
-                            <StatCard title="Waste Reduction" value="14.2%" trend="5.1%" />
-                        </div>
-
-                        <div className="card-gradient rounded-3xl border border-gray-100 premium-shadow p-8">
-                            <h3 className="text-xl font-bold font-serif mb-6">Top Performing Items</h3>
-                            <div className="space-y-4">
-                                {[
-                                    { name: "Wagyu Ribeye", orders: 48, share: "24%" },
-                                    { name: "Truffle Risotto", orders: 36, share: "18%" },
-                                    { name: "Saffron Sea Bass", orders: 22, share: "12%" }
-                                ].map((item, i) => (
-                                    <div key={i} className="flex justify-between items-center p-4 bg-white/50 rounded-xl border border-gray-50 hover:border-[#d4af37]/30 transition-all">
-                                        <span className="font-semibold text-[#1a1c18]">{item.name}</span>
-                                        <span className="text-[#2d5a27] font-bold">{item.share} Revenue</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </main>
-                </div>
+            return e('div', { className: 'flex min-h-screen' },
+                // Sidebar
+                e('aside', { className: 'w-64 glass-sidebar p-6 flex flex-col hidden lg:flex fixed h-full' },
+                    e('h2', { className: 'text-[#d4af37] text-2xl font-serif font-bold italic mb-10' }, 'DineLogic'),
+                    e('nav', { className: 'space-y-4' },
+                        e('div', { className: 'text-[#d4af37] text-sm font-bold' }, '• Kitchen Overview'),
+                        e('div', { className: 'text-gray-500 text-sm' }, '• Menu Optimizer'),
+                        e('div', { className: 'text-gray-500 text-sm' }, '• Inventory')
+                    )
+                ),
+                // Main
+                e('main', { className: 'flex-1 lg:ml-64 p-10' },
+                    e('header', { className: 'mb-10' },
+                        e('h1', { className: 'text-3xl font-bold text-[#1a1c18] font-serif' }, 'Executive Dashboard'),
+                        e('p', { className: 'text-gray-400 text-sm' }, 'System status: Optimal')
+                    ),
+                    e('div', { className: 'grid grid-cols-1 md:grid-cols-3 gap-6 mb-10' },
+                        e('div', { className: 'card-gradient p-6 rounded-2xl premium-shadow border' }, 
+                            e('p', { className: 'text-xs text-gray-400 font-bold uppercase' }, 'Revenue'),
+                            e('h3', { className: 'text-2xl font-bold mt-2' }, '$4,280.50')
+                        ),
+                        e('div', { className: 'card-gradient p-6 rounded-2xl premium-shadow border' }, 
+                            e('p', { className: 'text-xs text-gray-400 font-bold uppercase' }, 'Turnover'),
+                            e('h3', { className: 'text-2xl font-bold mt-2' }, '42 min')
+                        ),
+                        e('div', { className: 'card-gradient p-6 rounded-2xl premium-shadow border' }, 
+                            e('p', { className: 'text-xs text-gray-400 font-bold uppercase' }, 'Waste'),
+                            e('h3', { className: 'text-2xl font-bold mt-2' }, '14.2%')
+                        )
+                    ),
+                    e('div', { className: 'card-gradient rounded-3xl p-8 premium-shadow border' },
+                        e('h3', { className: 'text-xl font-bold font-serif mb-6' }, 'Top Performing Items'),
+                        e('ul', { className: 'space-y-4' },
+                            e('li', { className: 'p-4 bg-white/50 rounded-xl border flex justify-between' }, 
+                                e('span', { className: 'font-bold' }, 'Wagyu Ribeye'),
+                                e('span', { className: 'text-green-600' }, '24% Share')
+                            ),
+                            e('li', { className: 'p-4 bg-white/50 rounded-xl border flex justify-between' }, 
+                                e('span', { className: 'font-bold' }, 'Truffle Risotto'),
+                                e('span', { className: 'text-green-600' }, '18% Share')
+                            )
+                        )
+                    )
+                )
             );
         }
 
-        // The critical fix: Wait for the window to load everything
-        window.addEventListener('load', () => {
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-            root.render(<App />);
-        });
+        // Final mount check
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(e(App));
     </script>
 </body>
 </html>
