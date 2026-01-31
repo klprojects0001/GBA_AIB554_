@@ -6,112 +6,159 @@
     <title>DineLogic | Culinary Intelligence</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/recharts/umd/Recharts.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
       :root { --bg-champagne: #fdfcf7; --deep-forest: #1a1c18; --saffron: #d4af37; }
-      body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-champagne); margin: 0; overflow-x: hidden; }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-champagne); margin: 0; }
       .font-serif { font-family: 'Playfair Display', serif; }
       .glass-sidebar { background: linear-gradient(180deg, #1a1c18 0%, #121411 100%); }
       .card-gradient { background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%); }
-      .premium-shadow { box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08); }
-      #dashboard { display: none; opacity: 0; transition: opacity 0.5s ease-in; }
-      #splash-screen { transition: opacity 0.5s ease-out; }
+      .premium-shadow { box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05); }
+      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased">
+    <div id="root"></div>
 
-    <div id="splash-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#fdfcf7] p-6">
-        <div class="card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full">
-            <h1 class="text-5xl font-bold text-[#1a1c18] mb-2 font-serif">DineLogic</h1>
-            <p class="text-[#d4af37] font-medium tracking-[0.2em] uppercase text-[10px] mb-8">Culinary Intelligence</p>
-            <button onclick="enterDashboard()" class="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl active:scale-95">
-                Enter Dashboard
-            </button>
-        </div>
-    </div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } = Recharts;
 
-    <div id="dashboard" class="flex min-h-screen">
-        <aside class="w-64 glass-sidebar p-6 flex flex-col hidden lg:flex fixed h-full">
-            <h2 class="text-[#d4af37] text-2xl font-serif font-bold italic mb-10">DineLogic</h2>
-            <nav class="space-y-4">
-                <div class="text-[#d4af37] text-sm font-bold cursor-pointer">● Kitchen Overview</div>
-                <div class="text-gray-500 text-sm cursor-pointer hover:text-gray-300">○ Menu Optimizer</div>
-                <div class="text-gray-500 text-sm cursor-pointer hover:text-gray-300">○ Inventory</div>
-            </nav>
-        </aside>
+        // Mock Data for Charts
+        const data = [
+            { name: 'Mon', revenue: 4000 },
+            { name: 'Tue', revenue: 3000 },
+            { name: 'Wed', revenue: 5000 },
+            { name: 'Thu', revenue: 2780 },
+            { name: 'Fri', revenue: 6890 },
+            { name: 'Sat', revenue: 8390 },
+            { name: 'Sun', revenue: 7490 },
+        ];
 
-        <main class="flex-1 lg:ml-64 p-6 md:p-10">
-            <header class="mb-10 flex justify-between items-center">
-                <div>
-                    <h1 class="text-3xl font-bold text-[#1a1c18] font-serif">Executive Dashboard</h1>
-                    <p class="text-gray-400 text-sm">System status: <span class="text-green-600 font-bold">Optimal</span></p>
-                </div>
-                <div class="w-10 h-10 rounded-xl bg-[#1a1c18] text-[#d4af37] flex items-center justify-center font-bold">CH</div>
-            </header>
+        const App = () => {
+            const [isLoaded, setIsLoaded] = useState(false);
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="card-gradient p-6 rounded-2xl premium-shadow border border-gray-100">
-                    <p class="text-xs text-gray-400 font-bold uppercase">Revenue</p>
-                    <h3 class="text-2xl font-bold mt-2 text-[#1a1c18]">$4,280.50</h3>
-                    <p class="text-green-600 text-xs mt-2 font-bold">↑ 12.5%</p>
-                </div>
-                <div class="card-gradient p-6 rounded-2xl premium-shadow border border-gray-100">
-                    <p class="text-xs text-gray-400 font-bold uppercase">Turnover</p>
-                    <h3 class="text-2xl font-bold mt-2 text-[#1a1c18]">42 min</h3>
-                    <p class="text-green-600 text-xs mt-2 font-bold">↑ 8.2%</p>
-                </div>
-                <div class="card-gradient p-6 rounded-2xl premium-shadow border border-gray-100">
-                    <p class="text-xs text-gray-400 font-bold uppercase">Waste</p>
-                    <h3 class="text-2xl font-bold mt-2 text-[#1a1c18]">14.2%</h3>
-                    <p class="text-green-600 text-xs mt-2 font-bold">↑ 5.1%</p>
-                </div>
-            </div>
-
-            <div class="card-gradient rounded-3xl p-8 premium-shadow border border-gray-100">
-                <h3 class="text-xl font-bold font-serif mb-6 text-[#1a1c18]">Top Performing Items</h3>
-                <div class="space-y-4">
-                    <div class="p-4 bg-white/50 rounded-xl border flex justify-between items-center hover:border-[#d4af37] transition-all">
-                        <span class="font-bold text-[#1a1c18]">Wagyu Ribeye</span>
-                        <span class="bg-[#2d5a27]/10 text-[#2d5a27] px-3 py-1 rounded-full font-bold text-xs">24% Share</span>
+            if (!isLoaded) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center bg-[#fdfcf7]">
+                        <div className="text-center animate-in fade-in duration-700">
+                            <h1 className="text-6xl font-bold text-[#1a1c18] font-serif mb-4">DineLogic</h1>
+                            <div className="h-1 w-24 bg-[#d4af37] mx-auto mb-8"></div>
+                            <button 
+                                onClick={() => setIsLoaded(true)}
+                                className="px-12 py-4 bg-[#1a1c18] text-[#d4af37] rounded-full font-bold hover:tracking-widest transition-all duration-300 shadow-2xl"
+                            >
+                                INITIALIZE INTELLIGENCE
+                            </button>
+                        </div>
                     </div>
-                    <div class="p-4 bg-white/50 rounded-xl border flex justify-between items-center hover:border-[#d4af37] transition-all">
-                        <span class="font-bold text-[#1a1c18]">Truffle Risotto</span>
-                        <span class="bg-[#2d5a27]/10 text-[#2d5a27] px-3 py-1 rounded-full font-bold text-xs">18% Share</span>
-                    </div>
-                    <div class="p-4 bg-white/50 rounded-xl border flex justify-between items-center hover:border-[#d4af37] transition-all">
-                        <span class="font-bold text-[#1a1c18]">Saffron Sea Bass</span>
-                        <span class="bg-[#2d5a27]/10 text-[#2d5a27] px-3 py-1 rounded-full font-bold text-xs">12% Share</span>
-                    </div>
+                );
+            }
+
+            return (
+                <div className="flex min-h-screen">
+                    {/* SIDEBAR */}
+                    <aside className="w-72 glass-sidebar p-8 flex flex-col fixed h-full text-white">
+                        <div className="mb-12">
+                            <h2 className="text-[#d4af37] text-3xl font-serif font-bold italic">DineLogic</h2>
+                            <p className="text-[10px] tracking-[0.3em] uppercase text-gray-500 mt-2">Executive Portal</p>
+                        </div>
+                        
+                        <nav className="space-y-6 flex-1">
+                            <div className="space-y-2">
+                                <p className="text-[10px] uppercase text-gray-500 font-bold mb-4">Core Management</p>
+                                <div className="flex items-center space-x-3 text-[#d4af37] bg-white/5 p-3 rounded-xl border border-white/10">
+                                    <span>📊</span> <span className="font-semibold">Dashboard</span>
+                                </div>
+                                <div className="flex items-center space-x-3 text-gray-400 p-3 hover:text-white transition-colors cursor-pointer">
+                                    <span>👨‍🍳</span> <span>Menu Optimizer</span>
+                                </div>
+                                <div className="flex items-center space-x-3 text-gray-400 p-3 hover:text-white transition-colors cursor-pointer">
+                                    <span>📦</span> <span>Inventory</span>
+                                </div>
+                            </div>
+                        </nav>
+
+                        <div className="bg-[#d4af37]/10 p-4 rounded-2xl border border-[#d4af37]/20">
+                            <p className="text-[#d4af37] text-xs font-bold mb-1">AI Status</p>
+                            <p className="text-white text-[10px]">Gemini 1.5 Pro Connected</p>
+                        </div>
+                    </aside>
+
+                    {/* MAIN CONTENT */}
+                    <main className="flex-1 ml-72 p-12">
+                        <header className="flex justify-between items-end mb-12">
+                            <div>
+                                <h1 className="text-4xl font-bold text-[#1a1c18] font-serif">Culinary Intelligence</h1>
+                                <p className="text-gray-500 mt-2 text-lg italic">Welcome back, Executive Chef.</p>
+                            </div>
+                            <div className="bg-white p-4 rounded-2xl premium-shadow flex items-center space-x-4 border border-gray-100">
+                                <div className="text-right">
+                                    <p className="text-xs font-bold uppercase text-gray-400 leading-none">Status</p>
+                                    <p className="text-[#2d5a27] font-bold">Kitchen Active</p>
+                                </div>
+                                <div className="h-10 w-10 bg-[#1a1c18] rounded-full"></div>
+                            </div>
+                        </header>
+
+                        {/* STATS GRID */}
+                        <div className="grid grid-cols-3 gap-8 mb-12">
+                            {[
+                                { label: 'Daily Revenue', val: '$12,480', trend: '+14%' },
+                                { label: 'Prep Efficiency', val: '94%', trend: '+2.4%' },
+                                { label: 'Ingredient Yield', val: '98.2%', trend: '+0.8%' }
+                            ].map((s, i) => (
+                                <div key={i} className="card-gradient p-8 rounded-[2rem] premium-shadow border border-gray-100">
+                                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">{s.label}</p>
+                                    <h3 className="text-4xl font-bold text-[#1a1c18]">{s.val}</h3>
+                                    <p className="text-[#2d5a27] text-sm mt-4 font-bold flex items-center">
+                                        <span className="mr-1">▲</span> {s.trend} <span className="text-gray-400 font-normal ml-2 text-xs">vs last week</span>
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* REVENUE CHART */}
+                        <div className="card-gradient p-8 rounded-[2.5rem] premium-shadow border border-gray-100 mb-12">
+                            <div className="flex justify-between items-center mb-8">
+                                <h3 className="text-xl font-bold font-serif">Revenue Performance Analytics</h3>
+                                <div className="flex space-x-2">
+                                    <span className="px-3 py-1 bg-[#1a1c18] text-[#d4af37] text-[10px] font-bold rounded-full">7 DAYS</span>
+                                    <span className="px-3 py-1 bg-gray-100 text-gray-400 text-[10px] font-bold rounded-full">30 DAYS</span>
+                                </div>
+                            </div>
+                            <div className="h-64 w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={data}>
+                                        <defs>
+                                            <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#d4af37" stopOpacity={0.3}/>
+                                                <stop offset="95%" stopColor="#d4af37" stopOpacity={0}/>
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
+                                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#999'}} dy={10} />
+                                        <YAxis hide />
+                                        <Tooltip contentStyle={{borderRadius: '15px', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)'}} />
+                                        <Area type="monotone" dataKey="revenue" stroke="#d4af37" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                    </main>
                 </div>
-            </div>
-        </main>
-    </div>
-
-    <script>
-        // No React needed. Standard JS handles the switch.
-        function enterDashboard() {
-            const splash = document.getElementById('splash-screen');
-            const dash = document.getElementById('dashboard');
-            
-            // Fade out splash
-            splash.style.opacity = '0';
-            
-            setTimeout(() => {
-                splash.style.display = 'none';
-                // Show dashboard
-                dash.style.display = 'flex';
-                setTimeout(() => {
-                    dash.style.opacity = '1';
-                }, 50);
-            }, 500);
-        }
-
-        // Just in case Tailwind fails to load, we'll log it
-        window.onerror = function() {
-            console.log("A script failed to load. Check your internet connection.");
+            );
         };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
