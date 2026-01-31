@@ -27,68 +27,55 @@
       h1, h2, h3, .font-serif { 
         font-family: 'Playfair Display', serif; 
       }
-      .glass-sidebar {
-        background: linear-gradient(180deg, #1a1c18 0%, #121411 100%);
-      }
       .card-gradient {
         background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%);
       }
       .premium-shadow {
         box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
       }
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: rgba(212, 175, 55, 0.2);
-        border-radius: 10px;
-      }
     </style>
 
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@19.0.0",
-        "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-        "@google/genai": "https://esm.sh/@google/genai@1.0.2",
-        "recharts": "https://esm.sh/recharts@2.15.0"
-      }
-    }
-    </script>
+    <script src="https://unpkg.com/react@19/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body class="antialiased">
     <div id="root"></div>
 
-    <script type="module">
-        import React, { useState } from 'react';
-        import { createRoot } from 'react-dom/client';
+    <script type="text/babel">
+        const { useState } = React;
 
-        // Define your App Component
         function App() {
-            return React.createElement(
-                'div',
-                { className: 'min-h-screen flex items-center justify-center' },
-                React.createElement(
-                    'div',
-                    { className: 'card-gradient p-12 rounded-2xl premium-shadow border border-[#d4af37]/20 text-center' },
-                    React.createElement('h1', { className: 'text-5xl font-bold text-[#1a1c18] mb-4' }, 'DineLogic'),
-                    React.createElement('div', { className: 'h-1 w-20 bg-[#d4af37] mx-auto mb-6' }),
-                    React.createElement('p', { className: 'text-lg text-gray-600' }, 'Culinary Intelligence System is Active'),
-                    React.createElement('button', { 
-                        className: 'mt-8 px-8 py-3 bg-[#1a1c18] text-[#d4af37] rounded-full font-semibold hover:bg-[#2d5a27] transition-all',
-                        onClick: () => alert('Welcome to DineLogic!')
-                    }, 'Initialize Kitchen')
-                )
+            return (
+                <div className="min-h-screen flex items-center justify-center p-4">
+                    <div className="card-gradient p-8 md:p-12 rounded-2xl premium-shadow border border-[#d4af37]/20 text-center max-w-lg w-full">
+                        <h1 className="text-5xl font-bold text-[#1a1c18] mb-4">DineLogic</h1>
+                        <div className="h-1 w-20 bg-[#d4af37] mx-auto mb-6"></div>
+                        <p className="text-lg text-gray-600 mb-8 italic">
+                            Culinary Intelligence System is Active
+                        </p>
+                        
+                        <div className="space-y-4">
+                            <button 
+                                onClick={() => alert('Kitchen Initialization Sequence Started...')}
+                                className="w-full px-8 py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] transition-all transform hover:scale-105 active:scale-95 shadow-lg"
+                            >
+                                Initialize Kitchen
+                            </button>
+                            
+                            <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold">
+                                Powered by Gemini AI
+                            </p>
+                        </div>
+                    </div>
+                </div>
             );
         }
 
-        // Mount the application
-        const rootElement = document.getElementById('root');
-        const root = createRoot(rootElement);
-        root.render(React.createElement(App));
+        // Mounting logic for React 19
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
