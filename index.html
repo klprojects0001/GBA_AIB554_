@@ -3,89 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <base href="./" />
-
   <title>DineLogic | Culinary Intelligence</title>
 
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    :root {
-      --bg-champagne: #fdfcf7;
-      --deep-forest: #1a1c18;
-      --saffron: #d4af37;
-      --basil: #2d5a27;
-    }
     body {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      background-color: var(--bg-champagne);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #fdfcf7;
       color: #2d2a26;
       margin: 0;
     }
     h1, h2, h3, .font-serif {
-      font-family: "Playfair Display", serif;
-    }
-    .glass-sidebar {
-      background: linear-gradient(180deg, #1a1c18 0%, #121411 100%);
-    }
-    .card-gradient {
-      background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%);
-    }
-    .premium-shadow {
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.2);
-      border-radius: 10px;
-    }
-    .accent-border {
-      border-image: linear-gradient(to bottom, #d4af37, #b8860b) 1;
+      font-family: 'Playfair Display', serif;
     }
   </style>
 
-  <script type="importmap">
-  {
-    "imports": {
-      "react": "https://esm.sh/react@19",
-      "react-dom/client": "https://esm.sh/react-dom@19/client",
-      "@google/genai": "https://esm.sh/@google/genai@1.39.0",
-      "recharts": "https://esm.sh/recharts@3.7.0"
-    }
-  }
-  </script>
-
-  <link rel="stylesheet" href="./index.css" />
+  <!-- React UMD builds (browser-safe) -->
+  <script src="https://esm.sh/react@19/umd/react.production.min.js"></script>
+  <script src="https://esm.sh/react-dom@19/umd/react-dom.production.min.js"></script>
 </head>
-
-<body class="antialiased">
+<body>
   <div id="root"></div>
 
-  <script type="module">
-    import React from "react";
-    import { createRoot } from "react-dom/client";
+  <script>
+    // Shortcut for React.createElement
+    const e = React.createElement;
 
+    // Main App Component
     function App() {
-      return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-[#fdfcf7]">
-          <h1 className="text-4xl font-bold text-[#2d5a27] mb-4">✅ DineLogic is Live!</h1>
-          <p className="text-lg text-[#2d2a26]">Your GitHub Pages deployment is successful.</p>
-        </div>
+      return e(
+        'div',
+        { className: 'min-h-screen flex flex-col items-center justify-center' },
+        e('h1', { className: 'text-4xl font-bold text-[#2d5a27] mb-4' }, '✅ DineLogic is Live!'),
+        e('p', { className: 'text-lg text-[#2d2a26]' }, 'Your GitHub Pages deployment is successful.')
       );
     }
 
-    const root = createRoot(document.getElementById("root"));
-    root.render(<App />);
+    // Mount App
+    ReactDOM.render(e(App), document.getElementById('root'));
   </script>
 </body>
 </html>
