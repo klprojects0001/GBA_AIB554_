@@ -3,120 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DineLogic | Reputation Intelligence</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>DineLogic | Reputation Engine</title>
     
     <style>
-      :root { --bg-champagne: #fdfcf7; --deep-forest: #1a1c18; --saffron: #d4af37; }
-      body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-champagne); margin: 0; }
-      .font-serif { font-family: 'Playfair Display', serif; }
-      .glass-sidebar { background: linear-gradient(180deg, #1a1c18 0%, #121411 100%); }
-      .card-gradient { background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%); }
-      .premium-shadow { box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); }
-      
-      /* Gauge Style */
-      .gauge-container { position: relative; width: 120px; height: 60px; overflow: hidden; }
-      .gauge-body { position: absolute; top: 0; left: 0; width: 100%; height: 200%; border-radius: 50%; border: 12px solid #e5e7eb; border-bottom-color: #d4af37; border-right-color: #d4af37; transform: rotate(45deg); }
-      #main-content { display: none; }
+        /* INLINE CSS - No external files needed */
+        :root {
+            --gold: #d4af37;
+            --dark: #1a1c18;
+            --bg: #fdfcf7;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: var(--bg);
+            color: var(--dark);
+        }
+
+        /* Splash Screen */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .splash-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            max-width: 400px;
+        }
+
+        .btn {
+            background: var(--dark);
+            color: var(--gold);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        /* Dashboard Layout */
+        #dashboard {
+            display: none; /* Hidden until button click */
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #1a1c18 0%, #121411 100%);
+            height: 100vh;
+            position: fixed;
+            color: white;
+            padding: 2rem;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 3rem;
+            width: calc(100% - 280px);
+        }
+
+        /* Reputation Gauge */
+        .gauge-wrap {
+            background: white;
+            padding: 2rem;
+            border-radius: 2rem;
+            border: 1px solid #eee;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .circle-gauge {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(var(--gold) 92%, #eee 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-inner {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid #eee;
+            margin-bottom: 1rem;
+        }
+
+        .tag-green { color: #2d5a27; font-weight: bold; font-size: 0.8rem; }
+        .gold-text { color: var(--gold); }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <div id="splash" class="fixed inset-0 z-50 flex items-center justify-center bg-[#fdfcf7] p-6">
-        <div class="card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full">
-            <h1 class="text-5xl font-bold text-[#1a1c18] mb-2 font-serif">DineLogic</h1>
-            <p class="text-[#d4af37] font-medium tracking-[0.2em] uppercase text-[10px] mb-8">Culinary Intelligence</p>
-            <button onclick="launch()" class="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl">
-                LAUNCH REPUTATION ENGINE
-            </button>
+    <div id="splash">
+        <div class="splash-card">
+            <h1 style="font-size: 3rem; margin: 0;">DineLogic</h1>
+            <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 2rem;">REPUTATION ENGINE</p>
+            <button class="btn" onclick="showDash()">ENTER SYSTEM</button>
         </div>
     </div>
 
-    <div id="main-content" class="flex min-h-screen">
-        <aside class="w-72 glass-sidebar p-8 flex flex-col fixed h-full text-white">
-            <h2 class="text-[#d4af37] text-3xl font-serif font-bold italic mb-12">DineLogic</h2>
-            <nav class="space-y-6">
-                <div class="flex items-center space-x-3 text-[#d4af37] bg-white/5 p-3 rounded-xl border border-white/10">
-                    <span class="text-xl">📈</span> <span class="font-semibold text-sm">Reputation Hub</span>
-                </div>
-                <div class="flex items-center space-x-3 text-gray-500 p-3 hover:text-white transition-colors cursor-pointer">
-                    <span class="text-xl">🍳</span> <span class="text-sm">Menu Intel</span>
-                </div>
-            </nav>
-        </aside>
+    <div id="dashboard">
+        <div class="sidebar">
+            <h2 style="color: var(--gold); font-style: italic;">DineLogic</h2>
+            <div style="margin-top: 3rem; color: var(--gold); font-weight: bold;">● Reputation Hub</div>
+            <div style="margin-top: 1.5rem; color: #666;">○ Menu Optimizer</div>
+            <div style="margin-top: 1.5rem; color: #666;">○ Inventory</div>
+        </div>
 
-        <main class="flex-1 ml-72 p-12">
-            <header class="mb-12">
-                <h1 class="text-4xl font-bold text-[#1a1c18] font-serif">Reputation Engine</h1>
-                <p class="text-gray-400 mt-2">AI-Driven Sentiment & Brand Equity Analysis</p>
-            </header>
+        <div class="main-content">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0;">Executive Dashboard</h1>
+            <p style="color: #888; margin-bottom: 3rem;">AI Sentiment Analysis Active</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <div class="card-gradient p-8 rounded-[2.5rem] premium-shadow border border-[#d4af37]/20 flex items-center">
-                    <div class="flex flex-col items-center">
-                        <div class="gauge-container">
-                            <div class="gauge-body"></div>
-                        </div>
-                        <div class="text-3xl font-bold text-[#1a1c18] mt-2">92%</div>
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Equity Score</p>
-                    </div>
-                    <div class="ml-10 flex-1 space-y-4">
-                        <div class="flex justify-between border-b pb-2">
-                            <span class="text-xs text-gray-500 uppercase">Sentiment</span>
-                            <span class="text-xs font-bold text-green-600">Excellent</span>
-                        </div>
-                        <div class="flex justify-between border-b pb-2">
-                            <span class="text-xs text-gray-500 uppercase">Global Rank</span>
-                            <span class="text-xs font-bold text-[#1a1c18]">Top 5%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-xs text-gray-500 uppercase">Trend</span>
-                            <span class="text-xs font-bold text-[#d4af37]">↑ 4.2 pts</span>
-                        </div>
-                    </div>
+            <div class="gauge-wrap">
+                <div class="circle-gauge">
+                    <div class="circle-inner">92%</div>
                 </div>
-
-                <div class="card-gradient p-8 rounded-[2.5rem] premium-shadow border border-gray-100">
-                    <h3 class="text-lg font-bold font-serif mb-4 flex items-center">
-                        <span class="mr-2">✨</span> AI Perception Feed
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="p-3 bg-white/50 rounded-xl border border-gray-50 flex space-x-3 items-center">
-                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <p class="text-xs text-[#1a1c18] flex-1">Exceptional palette balance in the Saffron Bass.</p>
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Critics</span>
-                        </div>
-                        <div class="p-3 bg-white/50 rounded-xl border border-gray-50 flex space-x-3 items-center">
-                            <div class="w-2 h-2 bg-[#d4af37] rounded-full"></div>
-                            <p class="text-xs text-[#1a1c18] flex-1">Visual presentation of Wagyu is trending.</p>
-                            <span class="text-[9px] font-bold text-gray-400 uppercase">Social</span>
-                        </div>
-                    </div>
+                <div>
+                    <p style="font-size: 0.7rem; font-weight: bold; color: var(--gold); margin: 0;">BRAND EQUITY SCORE</p>
+                    <h3 style="margin: 5px 0;">Sentiment: Excellent</h3>
+                    <p style="color: #888; font-size: 0.8rem;">Trend: ↑ 4.2 points this week</p>
                 </div>
             </div>
 
-            <div class="card-gradient rounded-3xl p-8 premium-shadow border border-gray-100">
-                <h3 class="text-xl font-bold font-serif mb-6 text-[#1a1c18]">Dish Performance Intelligence</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 bg-green-50/50 rounded-2xl border border-green-100 flex justify-between items-center">
-                        <span class="font-bold text-green-800 text-sm">Wagyu Ribeye</span>
-                        <span class="bg-green-600 text-white text-[10px] px-2 py-1 rounded-full font-bold">+18% Profit</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div class="card">
+                    <h3 style="margin-top: 0;">AI Perception Feed</h3>
+                    <div style="padding: 10px; border-bottom: 1px solid #f9f9f9; font-size: 0.9rem;">
+                        <span class="tag-green">CRITICS:</span> Palette balance is exceptional.
                     </div>
-                    <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100 flex justify-between items-center">
-                        <span class="font-bold text-amber-800 text-sm">Truffle Risotto</span>
-                        <span class="bg-amber-600 text-white text-[10px] px-2 py-1 rounded-full font-bold">Trending</span>
+                    <div style="padding: 10px; font-size: 0.9rem;">
+                        <span class="gold-text" style="font-weight:bold;">SOCIAL:</span> Wagyu Ribeye is trending.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-top: 0;">Performance</h3>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span>Wagyu Ribeye</span>
+                        <span class="tag-green">+18% Profit</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Saffron Bass</span>
+                        <span class="tag-green">+12% Profit</span>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <script>
-        function launch() {
+        // Simple JS toggle - no libraries needed
+        function showDash() {
             document.getElementById('splash').style.display = 'none';
-            document.getElementById('main-content').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'flex';
         }
     </script>
 </body>
