@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DineLogic | Culinary Intelligence</title>
+    <title>DineLogic | Reputation Intelligence</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/recharts/umd/Recharts.js"></script>
-
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -19,141 +14,110 @@
       .font-serif { font-family: 'Playfair Display', serif; }
       .glass-sidebar { background: linear-gradient(180deg, #1a1c18 0%, #121411 100%); }
       .card-gradient { background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%); }
-      .premium-shadow { box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05); }
-      .reputation-glow { box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+      .premium-shadow { box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); }
+      
+      /* Gauge Style */
+      .gauge-container { position: relative; width: 120px; height: 60px; overflow: hidden; }
+      .gauge-body { position: absolute; top: 0; left: 0; width: 100%; height: 200%; border-radius: 50%; border: 12px solid #e5e7eb; border-bottom-color: #d4af37; border-right-color: #d4af37; transform: rotate(45deg); }
+      #main-content { display: none; }
     </style>
 </head>
 <body class="antialiased">
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState } = React;
-        const { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } = Recharts;
+    <div id="splash" class="fixed inset-0 z-50 flex items-center justify-center bg-[#fdfcf7] p-6">
+        <div class="card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full">
+            <h1 class="text-5xl font-bold text-[#1a1c18] mb-2 font-serif">DineLogic</h1>
+            <p class="text-[#d4af37] font-medium tracking-[0.2em] uppercase text-[10px] mb-8">Culinary Intelligence</p>
+            <button onclick="launch()" class="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl">
+                LAUNCH REPUTATION ENGINE
+            </button>
+        </div>
+    </div>
 
-        const ReputationEngine = () => {
-            const scoreData = [{ value: 92 }, { value: 8 }]; // 92% Positive
-            const COLORS = ['#d4af37', '#e5e7eb'];
+    <div id="main-content" class="flex min-h-screen">
+        <aside class="w-72 glass-sidebar p-8 flex flex-col fixed h-full text-white">
+            <h2 class="text-[#d4af37] text-3xl font-serif font-bold italic mb-12">DineLogic</h2>
+            <nav class="space-y-6">
+                <div class="flex items-center space-x-3 text-[#d4af37] bg-white/5 p-3 rounded-xl border border-white/10">
+                    <span class="text-xl">📈</span> <span class="font-semibold text-sm">Reputation Hub</span>
+                </div>
+                <div class="flex items-center space-x-3 text-gray-500 p-3 hover:text-white transition-colors cursor-pointer">
+                    <span class="text-xl">🍳</span> <span class="text-sm">Menu Intel</span>
+                </div>
+            </nav>
+        </aside>
 
-            return (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                    {/* Reputation Score Gauge */}
-                    <div className="card-gradient p-8 rounded-[2.5rem] premium-shadow border border-[#d4af37]/20 relative overflow-hidden">
-                        <div className="relative z-10">
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-[#d4af37] mb-2">Reputation Engine</p>
-                            <h3 className="text-2xl font-bold font-serif mb-6 text-[#1a1c18]">Brand Equity Score</h3>
-                            
-                            <div className="flex items-center justify-between">
-                                <div className="h-32 w-32">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <PieChart>
-                                            <Pie data={scoreData} innerRadius={40} outerRadius={55} startAngle={180} endAngle={0} dataKey="value">
-                                                {scoreData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index]} />)}
-                                            </Pie>
-                                        </PieChart>
-                                    </ResponsiveContainer>
-                                    <div className="text-center -mt-10 font-bold text-2xl text-[#1a1c18]">92%</div>
-                                </div>
-                                
-                                <div className="flex-1 ml-8 space-y-3">
-                                    <div className="flex justify-between text-sm border-b pb-2">
-                                        <span className="text-gray-500">Sentiment</span>
-                                        <span className="text-green-600 font-bold">Excellent</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm border-b pb-2">
-                                        <span className="text-gray-500">Global Rank</span>
-                                        <span className="text-[#1a1c18] font-bold">Top 5%</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-gray-500">Trend</span>
-                                        <span className="text-[#d4af37] font-bold">↑ 4.2 pts</span>
-                                    </div>
-                                </div>
-                            </div>
+        <main class="flex-1 ml-72 p-12">
+            <header class="mb-12">
+                <h1 class="text-4xl font-bold text-[#1a1c18] font-serif">Reputation Engine</h1>
+                <p class="text-gray-400 mt-2">AI-Driven Sentiment & Brand Equity Analysis</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="card-gradient p-8 rounded-[2.5rem] premium-shadow border border-[#d4af37]/20 flex items-center">
+                    <div class="flex flex-col items-center">
+                        <div class="gauge-container">
+                            <div class="gauge-body"></div>
                         </div>
+                        <div class="text-3xl font-bold text-[#1a1c18] mt-2">92%</div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Equity Score</p>
                     </div>
-
-                    {/* Live Sentiment Feed */}
-                    <div className="card-gradient p-8 rounded-[2.5rem] premium-shadow border border-gray-100">
-                        <h3 className="text-xl font-bold font-serif mb-6 flex items-center">
-                            <span className="mr-2">✨</span> AI Perception Feed
-                        </h3>
-                        <div className="space-y-4">
-                            {[
-                                { user: "Critics", text: "Exceptional palette balance in the Saffron Bass.", type: "Positive" },
-                                { user: "Social", text: "Visual presentation of Wagyu is trending globally.", type: "Positive" },
-                                { user: "Direct", text: "Service speed at Peak (19:00) improved by 12%.", type: "Neutral" }
-                            ].map((item, i) => (
-                                <div key={i} className="flex items-start space-x-3 p-3 bg-white/40 rounded-xl border border-gray-50">
-                                    <div className={`w-2 h-2 rounded-full mt-2 ${item.type === 'Positive' ? 'bg-green-500' : 'bg-[#d4af37]'}`}></div>
-                                    <div>
-                                        <p className="text-[10px] font-bold text-gray-400 uppercase">{item.user}</p>
-                                        <p className="text-xs text-[#1a1c18]">{item.text}</p>
-                                    </div>
-                                </div>
-                            ))}
+                    <div class="ml-10 flex-1 space-y-4">
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="text-xs text-gray-500 uppercase">Sentiment</span>
+                            <span class="text-xs font-bold text-green-600">Excellent</span>
+                        </div>
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="text-xs text-gray-500 uppercase">Global Rank</span>
+                            <span class="text-xs font-bold text-[#1a1c18]">Top 5%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-xs text-gray-500 uppercase">Trend</span>
+                            <span class="text-xs font-bold text-[#d4af37]">↑ 4.2 pts</span>
                         </div>
                     </div>
                 </div>
-            );
-        };
 
-        const App = () => {
-            const [isLoaded, setIsLoaded] = useState(false);
-
-            if (!isLoaded) {
-                return (
-                    <div className="min-h-screen flex items-center justify-center bg-[#fdfcf7]">
-                        <button onClick={() => setIsLoaded(true)} className="px-12 py-4 bg-[#1a1c18] text-[#d4af37] rounded-full font-bold shadow-2xl tracking-widest">
-                            LAUNCH SYSTEM
-                        </button>
-                    </div>
-                );
-            }
-
-            return (
-                <div className="flex min-h-screen">
-                    <aside className="w-72 glass-sidebar p-8 flex flex-col fixed h-full text-white">
-                        <h2 className="text-[#d4af37] text-3xl font-serif font-bold italic mb-12">DineLogic</h2>
-                        <nav className="space-y-6">
-                            <div className="flex items-center space-x-3 text-[#d4af37] bg-white/5 p-3 rounded-xl">
-                                <span>📈</span> <span className="font-semibold">Reputation Hub</span>
-                            </div>
-                            <div className="flex items-center space-x-3 text-gray-400 p-3">
-                                <span>🍳</span> <span>Menu Intel</span>
-                            </div>
-                        </nav>
-                    </aside>
-
-                    <main className="flex-1 ml-72 p-12">
-                        <header className="mb-12">
-                            <h1 className="text-4xl font-bold text-[#1a1c18] font-serif">Executive Dashboard</h1>
-                            <p className="text-gray-400">Reputation & Sentiment Analysis Active</p>
-                        </header>
-                        
-                        {/* Reputation Engine Section */}
-                        <ReputationEngine />
-
-                        {/* Top Items Section */}
-                        <div className="card-gradient rounded-3xl p-8 premium-shadow border border-gray-100">
-                             <h3 className="text-xl font-bold font-serif mb-6 text-[#1a1c18]">Performance Highlights</h3>
-                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="p-4 bg-green-50/50 rounded-2xl border border-green-100 flex justify-between items-center">
-                                    <span className="font-bold text-green-800">Wagyu Ribeye</span>
-                                    <span className="text-green-600 text-xs font-bold">+18% Profitability</span>
-                                </div>
-                                <div className="p-4 bg-amber-50/50 rounded-2xl border border-amber-100 flex justify-between items-center">
-                                    <span className="font-bold text-amber-800">Truffle Risotto</span>
-                                    <span className="text-amber-600 text-xs font-bold">Trending Demand</span>
-                                </div>
-                             </div>
+                <div class="card-gradient p-8 rounded-[2.5rem] premium-shadow border border-gray-100">
+                    <h3 class="text-lg font-bold font-serif mb-4 flex items-center">
+                        <span class="mr-2">✨</span> AI Perception Feed
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white/50 rounded-xl border border-gray-50 flex space-x-3 items-center">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <p class="text-xs text-[#1a1c18] flex-1">Exceptional palette balance in the Saffron Bass.</p>
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Critics</span>
                         </div>
-                    </main>
+                        <div class="p-3 bg-white/50 rounded-xl border border-gray-50 flex space-x-3 items-center">
+                            <div class="w-2 h-2 bg-[#d4af37] rounded-full"></div>
+                            <p class="text-xs text-[#1a1c18] flex-1">Visual presentation of Wagyu is trending.</p>
+                            <span class="text-[9px] font-bold text-gray-400 uppercase">Social</span>
+                        </div>
+                    </div>
                 </div>
-            );
-        };
+            </div>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+            <div class="card-gradient rounded-3xl p-8 premium-shadow border border-gray-100">
+                <h3 class="text-xl font-bold font-serif mb-6 text-[#1a1c18]">Dish Performance Intelligence</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-green-50/50 rounded-2xl border border-green-100 flex justify-between items-center">
+                        <span class="font-bold text-green-800 text-sm">Wagyu Ribeye</span>
+                        <span class="bg-green-600 text-white text-[10px] px-2 py-1 rounded-full font-bold">+18% Profit</span>
+                    </div>
+                    <div class="p-4 bg-amber-50/50 rounded-2xl border border-amber-100 flex justify-between items-center">
+                        <span class="font-bold text-amber-800 text-sm">Truffle Risotto</span>
+                        <span class="bg-amber-600 text-white text-[10px] px-2 py-1 rounded-full font-bold">Trending</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function launch() {
+            document.getElementById('splash').style.display = 'none';
+            document.getElementById('main-content').style.display = 'flex';
+        }
     </script>
 </body>
 </html>
