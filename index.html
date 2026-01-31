@@ -3,187 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DineLogic | Market Intelligence</title>
-    
+    <title>DineLogic | Culinary Intelligence</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/recharts/umd/Recharts.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #d4af37;
-            --dark: #1a1c18;
-            --bg: #fdfcf7;
-            --white: #ffffff;
-            --green: #2d5a27;
-            --red: #a83232;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--dark);
-        }
-
-        /* Sidebar Navigation */
-        .sidebar {
-            width: 260px;
-            background: #111;
-            height: 100vh;
-            position: fixed;
-            color: white;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .nav-item {
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-
-        .nav-active { background: var(--gold); color: white; font-weight: bold; }
-        .nav-inactive { color: #666; }
-        .nav-inactive:hover { color: #ccc; }
-
-        /* Main Dashboard Area */
-        .main-content {
-            margin-left: 260px;
-            padding: 3rem;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
-
-        /* Market Cards */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
-            border: 1px solid #eee;
-        }
-
-        .market-stat {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-        .trend-up { color: var(--green); font-weight: bold; }
-        .trend-down { color: var(--red); font-weight: bold; }
-
-        /* Mini Chart Simulation */
-        .bar-container {
-            display: flex;
-            align-items: flex-end;
-            gap: 5px;
-            height: 50px;
-            margin-top: 10px;
-        }
-        .bar { background: var(--gold); width: 15px; border-radius: 3px 3px 0 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fdfcf7; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .glass-sidebar { background: linear-gradient(180deg, #1a1c18 0%, #121411 100%); }
+        .premium-shadow { box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
 </head>
 <body>
+    <div id="root"></div>
 
-    <div class="sidebar">
-        <h2 style="color: var(--gold); font-style: italic; margin-bottom: 3rem;">DineLogic</h2>
-        <div class="nav-item nav-inactive">● Reputation Hub</div>
-        <div class="nav-item nav-active">📊 Market Dashboard</div>
-        <div class="nav-item nav-inactive">🍳 Menu Intel</div>
-        <div class="nav-item nav-inactive">📦 Inventory</div>
-    </div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } = Recharts;
 
-    <div class="main-content">
-        <div class="header">
-            <div>
-                <h1 style="font-size: 2.5rem; margin: 0;">Market Intelligence</h1>
-                <p style="color: #888;">Real-time Commodity & Competitor Tracking</p>
-            </div>
-            <div style="background: white; padding: 10px 20px; border-radius: 10px; border: 1px solid #eee;">
-                <span style="font-weight: bold;">Status:</span> <span style="color: var(--green);">Live Data</span>
-            </div>
-        </div>
+        // --- Mock Data & Constants ---
+        const CHART_DATA = [
+            { name: 'Mon', revenue: 4200, noShows: 4 },
+            { name: 'Tue', revenue: 3800, noShows: 2 },
+            { name: 'Wed', revenue: 5100, noShows: 3 },
+            { name: 'Thu', revenue: 6400, noShows: 5 },
+            { name: 'Fri', revenue: 9200, noShows: 1 },
+            { name: 'Sat', revenue: 11500, noShows: 2 },
+            { name: 'Sun', revenue: 7800, noShows: 4 },
+        ];
 
-        <div class="grid">
-            <div class="card">
-                <h3 style="margin-top: 0; color: var(--gold);">Commodity Index</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 1.5rem;">Price fluctuations for core ingredients</p>
-                
-                <div class="market-stat">
-                    <span>Premium Wagyu (kg)</span>
-                    <span class="trend-up">↑ 4.2%</span>
-                </div>
-                <div class="market-stat">
-                    <span>Saffron (Grade A)</span>
-                    <span class="trend-down">↓ 1.8%</span>
-                </div>
-                <div class="market-stat">
-                    <span>Imported Truffle</span>
-                    <span class="trend-up">↑ 12.5%</span>
-                </div>
-                
-                <div style="margin-top: 1.5rem; padding: 10px; background: #fff8e1; border-radius: 8px; font-size: 0.8rem; color: #856404;">
-                    <strong>AI Alert:</strong> Truffle prices projected to rise another 5% next week. Bulk purchase advised.
-                </div>
-            </div>
+        const MOCK_RESERVATIONS = [
+            { id: '1', guestName: 'David Chen', partySize: 4, dateTime: '2023-11-20T19:30:00', status: 'confirmed', source: 'web' },
+            { id: '2', guestName: 'Sarah Miller', partySize: 2, dateTime: '2023-11-20T20:15:00', status: 'confirmed', source: 'sms' },
+            { id: '3', guestName: 'James Wilson', partySize: 6, dateTime: '2023-11-21T18:00:00', status: 'pending', source: 'phone' },
+            { id: '4', guestName: 'Emily Blunt', partySize: 2, dateTime: '2023-11-20T18:00:00', status: 'confirmed', source: 'web' },
+        ];
 
-            <div class="card">
-                <h3 style="margin-top: 0; color: var(--gold);">Competitor Pulse</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 1.5rem;">Local market average vs. DineLogic</p>
-                
-                <div style="display: flex; justify-content: space-around; text-align: center;">
-                    <div>
-                        <div class="bar-container">
-                            <div class="bar" style="height: 30px; opacity: 0.3;"></div>
-                            <div class="bar" style="height: 50px;"></div>
+        // --- Components ---
+
+        const StatCard = ({ label, value, trend, icon, inverse = false }) => {
+            const isPositive = trend.startsWith('+');
+            const colorClass = isPositive ? (inverse ? 'text-rose-700' : 'text-emerald-700') : (inverse ? 'text-emerald-700' : 'text-rose-700');
+            
+            return (
+                <div className="bg-white p-8 rounded-[2rem] premium-shadow border border-stone-100 relative overflow-hidden group hover:border-[#d4af37]/30 transition-all duration-500 hover:-translate-y-1">
+                    <div className="absolute top-0 right-0 p-6 text-[#d4af37] opacity-10 group-hover:scale-110 transition-transform">
+                        {icon}
+                    </div>
+                    <div className="relative z-10">
+                        <p className="text-stone-400 text-[10px] font-extrabold uppercase tracking-[0.2em] mb-3">{label}</p>
+                        <h3 className="text-4xl font-serif font-bold text-stone-900 tracking-tight">{value}</h3>
+                        <div className={`inline-flex items-center gap-1.5 mt-4 px-2.5 py-1 rounded-full text-[11px] font-bold ${colorClass} bg-stone-50`}>
+                            <span>{isPositive ? '↑' : '↓'}</span> {trend} <span className="text-stone-400 font-normal ml-1">vs prev</span>
                         </div>
-                        <p style="font-size: 0.7rem; font-weight: bold; margin-top: 10px;">PRICING</p>
-                        <p style="font-size: 0.6rem; color: #888;">+15% Premium</p>
                     </div>
-                    <div>
-                        <div class="bar-container">
-                            <div class="bar" style="height: 20px; opacity: 0.3;"></div>
-                            <div class="bar" style="height: 45px;"></div>
+                </div>
+            );
+        };
+
+        const Dashboard = () => (
+            <div className="space-y-12 animate-in fade-in duration-1000">
+                <header>
+                    <div className="flex items-center gap-3 mb-2">
+                        <span className="w-8 h-[2px] bg-[#d4af37]"></span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#d4af37]">Performance Report</span>
+                    </div>
+                    <h2 className="text-5xl font-serif font-bold text-stone-900 leading-tight">House Overview</h2>
+                </header>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StatCard label="Guest Rating" value="4.8" trend="+0.4" icon="⭐" />
+                    <StatCard label="No-Show Rate" value="8.4%" trend="-6.2%" icon="⏳" inverse={true} />
+                    <StatCard label="Utilization" value="82%" trend="+12.4%" icon="📊" />
+                    <StatCard label="Revenue Gain" value="$15.4k" trend="+18%" icon="💰" />
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="bg-white p-10 rounded-[2.5rem] premium-shadow border border-stone-100 h-[450px]">
+                        <h3 className="text-2xl font-serif font-bold mb-10">Revenue Velocity</h3>
+                        <ResponsiveContainer width="100%" height="80%">
+                            <AreaChart data={CHART_DATA}>
+                                <defs>
+                                    <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#d4af37" stopOpacity={0.15}/>
+                                        <stop offset="95%" stopColor="#d4af37" stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#a8a29e', fontSize: 11}} />
+                                <YAxis axisLine={false} tickLine={false} tick={{fill: '#a8a29e', fontSize: 11}} />
+                                <Tooltip contentStyle={{borderRadius: '20px', border: 'none', boxShadow: '0 20px 40px rgba(0,0,0,0.1)'}} />
+                                <Area type="monotone" dataKey="revenue" stroke="#d4af37" strokeWidth={4} fill="url(#colorRev)" />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="bg-white p-10 rounded-[2.5rem] premium-shadow border border-stone-100 h-[450px]">
+                        <h3 className="text-2xl font-serif font-bold mb-10">System Efficiency</h3>
+                        <ResponsiveContainer width="100%" height="80%">
+                            <BarChart data={CHART_DATA}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#a8a29e', fontSize: 11}} />
+                                <YAxis axisLine={false} tickLine={false} tick={{fill: '#a8a29e', fontSize: 11}} />
+                                <Tooltip cursor={{fill: '#fcfcfc'}} />
+                                <Bar dataKey="noShows" radius={[8, 8, 0, 0]}>
+                                    {CHART_DATA.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={index === 4 ? '#2d5a27' : '#e5e1d8'} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const ReservationManager = () => {
+            const [messages, setMessages] = useState([]);
+            const [loading, setLoading] = useState(false);
+
+            const handleCommand = (cmd) => {
+                setLoading(true);
+                setMessages(prev => [...prev, { role: 'owner', text: cmd }]);
+                setTimeout(() => {
+                    setMessages(prev => [...prev, { role: 'ai', text: `Analyzing House Ledger for: ${cmd}. Data reflects 4 confirmed covers for tonight.` }]);
+                    setLoading(false);
+                }, 800);
+            };
+
+            return (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                    <div className="lg:col-span-2 space-y-8">
+                        <div className="flex justify-between items-end">
+                            <h2 className="text-4xl font-serif font-bold text-stone-900">House Reservations</h2>
+                            <button className="bg-gradient-to-br from-[#d4af37] to-[#8a6d1d] text-stone-900 px-8 py-3 rounded-2xl text-[11px] font-bold uppercase tracking-widest shadow-lg">Manual Add</button>
                         </div>
-                        <p style="font-size: 0.7rem; font-weight: bold; margin-top: 10px;">QUALITY</p>
-                        <p style="font-size: 0.6rem; color: #888;">+22% Higher</p>
+                        <div className="bg-white rounded-[2rem] premium-shadow border border-stone-100 overflow-hidden">
+                            <table className="w-full text-left">
+                                <thead className="bg-stone-50/50 text-stone-400 text-[10px] font-bold uppercase tracking-[0.2em]">
+                                    <tr>
+                                        <th className="px-8 py-6">Guest Profile</th>
+                                        <th className="px-8 py-6 text-center">Covers</th>
+                                        <th className="px-8 py-6">Service Time</th>
+                                        <th className="px-8 py-6">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-stone-50">
+                                    {MOCK_RESERVATIONS.map(res => (
+                                        <tr key={res.id} className="hover:bg-stone-50/80 transition-all">
+                                            <td className="px-8 py-6 font-bold text-stone-800">{res.guestName}</td>
+                                            <td className="px-8 py-6 text-center">
+                                                <span className="w-10 h-10 rounded-xl border flex items-center justify-center mx-auto">{res.partySize}</span>
+                                            </td>
+                                            <td className="px-8 py-6 text-sm font-bold">{res.dateTime.split('T')[1].substring(0,5)}</td>
+                                            <td className="px-8 py-6">
+                                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase ${res.status === 'confirmed' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
+                                                    {res.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="glass-sidebar rounded-[2.5rem] p-8 text-stone-100 h-[650px] flex flex-col relative overflow-hidden">
+                        <h3 className="text-xl font-serif font-bold text-white mb-6">Concierge AI</h3>
+                        <div className="flex flex-wrap gap-2 mb-8">
+                            {["Dinner Summary", "Staff Briefing", "VIP Patterns"].map(cmd => (
+                                <button key={cmd} onClick={() => handleCommand(cmd)} className="px-3 py-2 rounded-xl bg-stone-900/50 border border-stone-800 text-[10px] font-bold text-stone-400 hover:text-[#d4af37]">{cmd}</button>
+                            ))}
+                        </div>
+                        <div className="flex-1 overflow-y-auto space-y-4 custom-scrollbar pr-2">
+                            {messages.map((m, i) => (
+                                <div key={i} className={`flex flex-col ${m.role === 'owner' ? 'items-end' : 'items-start'}`}>
+                                    <div className={`max-w-[90%] rounded-2xl px-4 py-3 text-[12px] ${m.role === 'owner' ? 'bg-stone-800 text-white' : 'bg-stone-900 text-stone-300 border border-stone-800'}`}>
+                                        {m.text}
+                                    </div>
+                                </div>
+                            ))}
+                            {loading && <div className="text-stone-500 text-[10px] animate-pulse">AI processing...</div>}
+                        </div>
                     </div>
                 </div>
-                
-                <div style="margin-top: 2rem;">
-                    <h4 style="font-size: 0.9rem; margin-bottom: 10px;">Consumer Sentiment Shift</h4>
-                    <div style="width: 100%; background: #eee; height: 8px; border-radius: 4px;">
-                        <div style="width: 78%; background: var(--green); height: 8px; border-radius: 4px;"></div>
-                    </div>
-                    <p style="font-size: 0.7rem; margin-top: 5px; color: #666;">78% of local market prefers DineLogic's presentation style.</p>
+            );
+        };
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('dashboard');
+
+            return (
+                <div className="min-h-screen flex flex-col lg:flex-row">
+                    <nav className="w-full lg:w-80 glass-sidebar lg:h-screen sticky top-0 z-50 p-8 flex flex-col border-r border-stone-800">
+                        <div className="mb-12 flex items-center gap-4">
+                            <div className="w-12 h-12 bg-gradient-to-br from-[#d4af37] to-[#8a6d1d] rounded-2xl flex items-center justify-center font-serif text-2xl font-bold text-stone-900 shadow-lg">D</div>
+                            <div>
+                                <h1 className="text-xl font-bold text-white font-serif">DineLogic</h1>
+                                <p className="text-[10px] uppercase tracking-[0.3em] text-[#d4af37] font-bold">Intelligence</p>
+                            </div>
+                        </div>
+                        <div className="space-y-3">
+                            {[
+                                { id: 'dashboard', label: 'Market Dashboard', icon: '📈' },
+                                { id: 'reservations', label: 'House Reservations', icon: '📅' },
+                                { id: 'reviews', label: 'Reputation Engine', icon: '✨' }
+                            ].map(item => (
+                                <button
+                                    key={item.id}
+                                    onClick={() => setActiveTab(item.id)}
+                                    className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all text-sm font-semibold ${activeTab === item.id ? 'bg-[#252822] text-white ring-1 ring-[#d4af37]/30 shadow-lg' : 'text-stone-500 hover:text-stone-300'}`}
+                                >
+                                    <span>{item.icon}</span>
+                                    <span>{item.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </nav>
+
+                    <main className="flex-1 p-8 lg:p-12 overflow-y-auto">
+                        <div className="max-w-6xl mx-auto">
+                            {activeTab === 'dashboard' && <Dashboard />}
+                            {activeTab === 'reservations' && <ReservationManager />}
+                            {activeTab === 'reviews' && (
+                                <div className="text-center py-20">
+                                    <h2 className="text-4xl font-serif font-bold text-stone-900 mb-4">Reputation Engine</h2>
+                                    <p className="text-stone-500">Sentiment analysis and review drafts are active.</p>
+                                </div>
+                            )}
+                        </div>
+                    </main>
                 </div>
-            </div>
-        </div>
+            );
+        };
 
-        <div class="card" style="margin-top: 2rem;">
-            <h3 style="margin-top: 0;">Ingredient Seasonal Trends</h3>
-            <p style="font-size: 0.8rem; color: #888; margin-bottom: 1.5rem;">Demand forecasting for the next 30 days</p>
-            <div style="display: flex; gap: 10px;">
-                <span style="background: #f1f1f1; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Sea Bass: High Demand</span>
-                <span style="background: #f1f1f1; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Root Vegetables: Low Supply</span>
-                <span style="background: #f1f1f1; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Wild Mushrooms: Peak Season</span>
-            </div>
-        </div>
-    </div>
-
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
