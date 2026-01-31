@@ -6,78 +6,66 @@
     <title>DineLogic | Culinary Intelligence</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@19/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
       :root {
         --bg-champagne: #fdfcf7;
         --deep-forest: #1a1c18;
         --saffron: #d4af37;
-        --basil: #2d5a27;
       }
       body { 
         font-family: 'Plus Jakarta Sans', sans-serif; 
         background-color: var(--bg-champagne);
-        color: #2d2a26;
         margin: 0;
       }
-      h1, h2, h3, .font-serif { 
-        font-family: 'Playfair Display', serif; 
-      }
-      .glass-sidebar {
-        background: linear-gradient(180deg, #1a1c18 0%, #121411 100%);
-      }
-      .card-gradient {
-        background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%);
-      }
-      .premium-shadow {
-        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
-      }
+      h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+      .glass-sidebar { background: linear-gradient(180deg, #1a1c18 0%, #121411 100%); }
+      .card-gradient { background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%); }
+      .premium-shadow { box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08); }
     </style>
-
-    <script src="https://unpkg.com/react@19/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body class="antialiased">
-    <div id="root"></div>
+    <div id="root">
+        <div id="loading-state" class="min-h-screen flex items-center justify-center">
+            <p class="text-gray-400 animate-pulse">Initializing DineLogic Intelligence...</p>
+        </div>
+    </div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState } = React;
 
-        // --- UI Components ---
         const SidebarItem = ({ label, active }) => (
             <div className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all ${active ? 'bg-[#d4af37] text-white shadow-md' : 'text-gray-400 hover:bg-white/5'}`}>
                 <div className={`w-2 h-2 rounded-full ${active ? 'bg-white' : 'bg-gray-600'}`}></div>
-                <span className="font-medium">{label}</span>
+                <span className="font-medium text-sm">{label}</span>
             </div>
         );
 
         const StatCard = ({ title, value, trend }) => (
             <div className="card-gradient p-6 rounded-2xl border border-gray-100 premium-shadow">
-                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">{title}</p>
-                <h3 className="text-3xl font-bold mt-2 text-[#1a1c18]">{value}</h3>
-                <p className="text-green-600 text-sm mt-2 font-medium">↑ {trend}</p>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{title}</p>
+                <h3 className="text-2xl font-bold mt-2 text-[#1a1c18]">{value}</h3>
+                <p className="text-green-600 text-xs mt-2 font-bold">↑ {trend}</p>
             </div>
         );
 
         function App() {
             const [isInitialized, setIsInitialized] = useState(false);
 
-            // Splash Screen UI
             if (!isInitialized) {
                 return (
-                    <div className="min-h-screen flex items-center justify-center bg-[#fdfcf7]">
-                        <div className="card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full mx-4">
+                    <div className="min-h-screen flex items-center justify-center bg-[#fdfcf7] p-6">
+                        <div className="card-gradient p-12 rounded-3xl premium-shadow border border-[#d4af37]/20 text-center max-w-md w-full">
                             <h1 className="text-5xl font-bold text-[#1a1c18] mb-2">DineLogic</h1>
-                            <p className="text-[#d4af37] font-medium tracking-[0.2em] uppercase text-xs mb-8">Culinary Intelligence</p>
-                            <div className="h-px w-full bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent mb-8"></div>
+                            <p className="text-[#d4af37] font-medium tracking-[0.2em] uppercase text-[10px] mb-8">Culinary Intelligence</p>
                             <button 
                                 onClick={() => setIsInitialized(true)}
-                                className="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all transform active:scale-95 shadow-xl"
+                                className="w-full py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] hover:text-white transition-all shadow-xl active:scale-95"
                             >
                                 Enter Dashboard
                             </button>
@@ -86,89 +74,48 @@
                 );
             }
 
-            // Dashboard UI
             return (
-                <div className="flex min-h-screen bg-[#fdfcf7]">
-                    {/* Sidebar */}
+                <div className="flex min-h-screen">
                     <aside className="w-64 glass-sidebar p-6 flex flex-col hidden lg:flex fixed h-full">
-                        <div className="mb-12 px-3">
+                        <div className="mb-10 px-3">
                             <h2 className="text-[#d4af37] text-2xl font-serif font-bold italic">DineLogic</h2>
-                            <p className="text-[10px] text-gray-500 tracking-widest uppercase">System Active</p>
                         </div>
                         <nav className="space-y-2 flex-1">
                             <SidebarItem label="Kitchen Overview" active />
                             <SidebarItem label="Menu Optimizer" />
-                            <SidebarItem label="Inventory Management" />
-                            <SidebarItem label="Staff Intelligence" />
+                            <SidebarItem label="Inventory" />
+                            <SidebarItem label="AI Insights" />
                         </nav>
-                        <div className="pt-6 border-t border-white/5">
-                            <div className="bg-white/5 p-4 rounded-xl">
-                                <p className="text-gray-400 text-[10px] uppercase font-bold mb-2">AI Status</p>
-                                <div className="flex items-center text-green-500 text-xs font-bold">
-                                    <span className="relative flex h-2 w-2 mr-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                    </span>
-                                    Connected
-                                </div>
-                            </div>
-                        </div>
                     </aside>
 
-                    {/* Main Content Area */}
-                    <main className="flex-1 lg:ml-64 p-4 md:p-10">
-                        <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+                    <main className="flex-1 lg:ml-64 p-6 md:p-10">
+                        <header className="flex justify-between items-center mb-10">
                             <div>
-                                <h1 className="text-4xl font-bold text-[#1a1c18] font-serif">Executive Dashboard</h1>
-                                <p className="text-gray-500 text-sm mt-1">Real-time culinary analytics and kitchen performance.</p>
+                                <h1 className="text-3xl font-bold text-[#1a1c18] font-serif">Executive Dashboard</h1>
+                                <p className="text-gray-400 text-sm">System status: <span className="text-green-600 font-bold">Optimal</span></p>
                             </div>
-                            <div className="flex items-center bg-white p-2 rounded-2xl shadow-sm border border-gray-100">
-                                <div className="px-4 py-2 text-right">
-                                    <p className="text-xs font-bold text-[#1a1c18]">Executive Chef</p>
-                                    <p className="text-[10px] text-gray-400">Kitchen HQ</p>
-                                </div>
-                                <div className="w-10 h-10 rounded-xl bg-[#1a1c18] text-[#d4af37] flex items-center justify-center font-bold">CH</div>
-                            </div>
+                            <div className="w-10 h-10 rounded-xl bg-[#1a1c18] text-[#d4af37] flex items-center justify-center font-bold">CH</div>
                         </header>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                            <StatCard title="Total Revenue" value="$12,840.50" trend="14.2%" />
-                            <StatCard title="Avg. Prep Time" value="18.5 min" trend="4.1%" />
-                            <StatCard title="Ingredient Yield" value="94.2%" trend="2.8%" />
+                            <StatCard title="Daily Revenue" value="$4,280.50" trend="12.5%" />
+                            <StatCard title="Turnover Rate" value="42 min" trend="8.2%" />
+                            <StatCard title="Waste Reduction" value="14.2%" trend="5.1%" />
                         </div>
 
-                        <div className="card-gradient rounded-3xl border border-gray-100 premium-shadow overflow-hidden">
-                            <div className="p-8 border-b border-gray-50 flex justify-between items-center bg-white/50">
-                                <h3 className="text-xl font-bold font-serif text-[#1a1c18]">High-Performance Menu Items</h3>
-                                <button className="text-[#d4af37] text-sm font-bold hover:underline">View All</button>
-                            </div>
-                            <div className="p-4 md:p-8 overflow-x-auto">
-                                <table className="w-full text-left">
-                                    <thead>
-                                        <tr className="text-gray-400 text-xs uppercase tracking-widest border-b border-gray-50">
-                                            <th className="pb-4 font-bold">Dish Name</th>
-                                            <th className="pb-4 font-bold">Status</th>
-                                            <th className="pb-4 font-bold text-right">Revenue Share</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-50">
-                                        {[
-                                            { name: "Smoked Wagyu Brisket", status: "High Demand", share: "24%" },
-                                            { name: "Truffle Infused Lobster", status: "Optimized", share: "18%" },
-                                            { name: "Saffron Sea Bass", status: "Trending", share: "15%" }
-                                        ].map((dish, i) => (
-                                            <tr key={i} className="group hover:bg-gray-50/50 transition-colors">
-                                                <td className="py-5 font-semibold text-[#1a1c18]">{dish.name}</td>
-                                                <td className="py-5">
-                                                    <span className="px-3 py-1 bg-[#2d5a27]/10 text-[#2d5a27] text-[10px] font-bold rounded-full">
-                                                        {dish.status}
-                                                    </span>
-                                                </td>
-                                                <td className="py-5 text-right font-bold text-[#1a1c18]">{dish.share}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                        <div className="card-gradient rounded-3xl border border-gray-100 premium-shadow p-8">
+                            <h3 className="text-xl font-bold font-serif mb-6">Top Performing Items</h3>
+                            <div className="space-y-4">
+                                {[
+                                    { name: "Wagyu Ribeye", orders: 48, share: "24%" },
+                                    { name: "Truffle Risotto", orders: 36, share: "18%" },
+                                    { name: "Saffron Sea Bass", orders: 22, share: "12%" }
+                                ].map((item, i) => (
+                                    <div key={i} className="flex justify-between items-center p-4 bg-white/50 rounded-xl border border-gray-50 hover:border-[#d4af37]/30 transition-all">
+                                        <span className="font-semibold text-[#1a1c18]">{item.name}</span>
+                                        <span className="text-[#2d5a27] font-bold">{item.share} Revenue</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </main>
@@ -176,12 +123,11 @@
             );
         }
 
-        // Initialize Root with error boundary check
-        const container = document.getElementById('root');
-        if (container) {
-            const root = ReactDOM.createRoot(container);
+        // The critical fix: Wait for the window to load everything
+        window.addEventListener('load', () => {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
             root.render(<App />);
-        }
+        });
     </script>
 </body>
 </html>
