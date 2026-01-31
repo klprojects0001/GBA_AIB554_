@@ -4,15 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- REQUIRED for GitHub Pages subdirectory hosting -->
   <base href="./" />
 
   <title>DineLogic | Culinary Intelligence</title>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -20,7 +17,6 @@
     rel="stylesheet"
   />
 
-  <!-- Custom Styles -->
   <style>
     :root {
       --bg-champagne: #fdfcf7;
@@ -28,44 +24,36 @@
       --saffron: #d4af37;
       --basil: #2d5a27;
     }
-
     body {
       font-family: "Plus Jakarta Sans", sans-serif;
       background-color: var(--bg-champagne);
       color: #2d2a26;
+      margin: 0;
     }
-
     h1, h2, h3, .font-serif {
       font-family: "Playfair Display", serif;
     }
-
     .glass-sidebar {
       background: linear-gradient(180deg, #1a1c18 0%, #121411 100%);
     }
-
     .card-gradient {
       background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%);
     }
-
     .premium-shadow {
       box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
     }
-
     .custom-scrollbar::-webkit-scrollbar {
       width: 4px;
     }
-
     .custom-scrollbar::-webkit-scrollbar-thumb {
       background: rgba(212, 175, 55, 0.2);
       border-radius: 10px;
     }
-
     .accent-border {
       border-image: linear-gradient(to bottom, #d4af37, #b8860b) 1;
     }
   </style>
 
-  <!-- Import map (browser-safe) -->
   <script type="importmap">
   {
     "imports": {
@@ -77,14 +65,27 @@
   }
   </script>
 
-  <!-- MUST be relative -->
   <link rel="stylesheet" href="./index.css" />
 </head>
 
 <body class="antialiased">
   <div id="root"></div>
 
-  <!-- MUST be JS (NOT .tsx) -->
-  <script type="module" src="./index.js"></script>
+  <script type="module">
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+
+    function App() {
+      return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#fdfcf7]">
+          <h1 className="text-4xl font-bold text-[#2d5a27] mb-4">✅ DineLogic is Live!</h1>
+          <p className="text-lg text-[#2d2a26]">Your GitHub Pages deployment is successful.</p>
+        </div>
+      );
+    }
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
 </body>
 </html>
