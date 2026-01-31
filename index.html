@@ -5,241 +5,261 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DineLogic | Culinary Intelligence</title>
     <style>
-        /* INLINE STYLES - No External CSS needed */
+        /* INLINE SYSTEM STYLES */
         :root {
             --gold: #d4af37;
             --dark-olive: #1a1c18;
-            --bg: #fdfcf7;
+            --bg-champagne: #fdfcf7;
             --stone-100: #f5f5f4;
             --stone-400: #a8a29e;
             --stone-500: #78716c;
             --stone-900: #1c1917;
+            --emerald-700: #047857;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-champagne);
             color: var(--stone-900);
             display: flex;
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+        /* SIDEBAR NAVIGATION */
         nav {
             width: 280px;
             background: linear-gradient(180deg, #1a1c18 0%, #121411 100%);
             color: white;
-            padding: 2rem;
+            padding: 2.5rem 1.5rem;
             position: fixed;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
             border-right: 1px solid #2d2d2d;
+            box-sizing: border-box;
         }
 
-        .logo-box {
+        .logo-section {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 3rem;
+            gap: 12px;
+            margin-bottom: 3.5rem;
         }
 
-        .logo-icon {
-            width: 45px;
-            height: 45px;
+        .logo-square {
+            width: 44px;
+            height: 44px;
             background: linear-gradient(135deg, var(--gold), #8a6d1d);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.5rem;
+            font-weight: 800;
+            font-size: 1.4rem;
             color: var(--dark-olive);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
-        .nav-item {
-            padding: 15px;
+        .nav-btn {
+            padding: 14px 18px;
             margin-bottom: 8px;
-            border-radius: 12px;
+            border-radius: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: var(--stone-500);
-            transition: 0.3s;
+            transition: 0.2s ease;
+            border: 1px solid transparent;
         }
 
-        .nav-item.active {
+        .nav-btn.active {
             background: #252822;
             color: white;
             border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        .nav-item:hover:not(.active) {
-            color: #ddd;
-        }
-
-        /* MAIN CONTENT */
+        /* MAIN CONTENT AREA */
         main {
             margin-left: 280px;
-            padding: 3rem;
+            padding: 4rem;
             flex-grow: 1;
-            max-width: 1200px;
+            max-width: 1100px;
         }
 
-        header { margin-bottom: 3rem; }
-        header h1 { font-size: 3rem; margin: 0; }
-        header p { color: var(--stone-500); font-style: italic; margin-top: 5px; }
+        h1 { font-family: 'Georgia', serif; font-size: 2.8rem; margin: 0; font-weight: 700; }
+        .subtitle { color: var(--stone-500); font-style: italic; margin-top: 8px; font-size: 1.1rem; }
 
-        /* CARDS */
-        .grid {
+        /* ANALYTICS CARDS */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
+            margin-top: 3rem;
             margin-bottom: 3rem;
         }
 
-        .stat-card {
+        .card {
             background: white;
             padding: 2rem;
-            border-radius: 24px;
+            border-radius: 28px;
             border: 1px solid var(--stone-100);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: 0.3s;
         }
 
-        .stat-card p {
-            font-size: 0.7rem;
+        .card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.3); }
+
+        .card-label {
+            font-size: 0.65rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             color: var(--stone-400);
-            margin: 0 0 10px 0;
+            margin-bottom: 12px;
         }
 
-        .stat-card h3 { font-size: 2.2rem; margin: 0; }
-        .trend { font-size: 0.8rem; font-weight: bold; margin-top: 15px; display: block; }
-        .trend-up { color: #2d5a27; }
+        .card-value { font-size: 2.4rem; font-weight: 700; margin: 0; font-family: 'Georgia', serif; }
 
-        /* TABLE */
-        .table-container {
+        .trend-tag {
+            display: inline-flex;
+            margin-top: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--emerald-700);
+            background: #f0fdf4;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* RESERVATION LIST */
+        .content-split {
+            display: grid;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 30px;
+        }
+
+        .table-wrap {
             background: white;
             border-radius: 32px;
             border: 1px solid var(--stone-100);
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: #fafaf9; padding: 20px; font-size: 0.7rem; color: var(--stone-400); text-transform: uppercase; letter-spacing: 1px; }
-        td { padding: 20px; border-top: 1px solid #f5f5f4; font-weight: 600; }
+        th { background: #fafaf9; padding: 22px; font-size: 0.65rem; color: var(--stone-400); text-transform: uppercase; letter-spacing: 1.5px; }
+        td { padding: 22px; border-top: 1px solid #f5f5f4; font-weight: 600; font-size: 0.9rem; }
 
-        .status-pill {
-            background: #f0fdf4;
-            color: #15803d;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        /* AI CONCIERGE SIDEBAR (Within Content) */
-        .reservation-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-
-        .ai-concierge {
+        /* CONCIERGE AI BOX */
+        .ai-sidebar {
             background: var(--dark-olive);
             border-radius: 32px;
-            padding: 2rem;
+            padding: 2.2rem;
             color: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
-        .ai-btn {
+        .ai-title { font-family: 'Georgia', serif; font-size: 1.4rem; margin: 0 0 1rem 0; color: var(--gold); }
+
+        .ai-action {
             background: #252822;
             border: 1px solid #333;
-            color: var(--stone-400);
-            padding: 10px;
+            color: #999;
+            padding: 12px 15px;
             border-radius: 12px;
             font-size: 0.7rem;
-            font-weight: bold;
+            font-weight: 800;
+            letter-spacing: 1px;
             margin-bottom: 10px;
             width: 100%;
             cursor: pointer;
             text-align: left;
+            transition: 0.2s;
         }
 
-        .ai-btn:hover { color: var(--gold); border-color: var(--gold); }
+        .ai-action:hover { color: var(--gold); border-color: var(--gold); }
+
+        .ai-output {
+            margin-top: 2rem;
+            background: #000;
+            padding: 1.5rem;
+            border-radius: 18px;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            border-left: 3px solid var(--gold);
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo-box">
-            <div class="logo-icon">D</div>
+        <div class="logo-section">
+            <div class="logo-square">D</div>
             <div>
-                <div style="font-weight:bold; font-size: 1.2rem;">DineLogic</div>
-                <div style="color: var(--gold); font-size: 0.6rem; letter-spacing: 2px; font-weight: bold;">INTELLIGENCE</div>
+                <div style="font-weight:800; font-size: 1.1rem; letter-spacing: -0.5px;">DineLogic</div>
+                <div style="color: var(--gold); font-size: 0.55rem; letter-spacing: 3px; font-weight: 800;">CULLINARY AI</div>
             </div>
         </div>
 
-        <div class="nav-item active">📈 Market Dashboard</div>
-        <div class="nav-item">📅 House Reservations</div>
-        <div class="nav-item">✨ Reputation Engine</div>
+        <div class="nav-btn active">📊 Market Dashboard</div>
+        <div class="nav-btn">📅 House Reservations</div>
+        <div class="nav-btn">✨ Reputation Engine</div>
 
-        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #333;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 35px; height: 35px; background: #2d5a27; border-radius: 8px;"></div>
+        <div style="margin-top: auto; padding-top: 25px; border-top: 1px solid #333;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 38px; height: 38px; background: #2d5a27; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: serif;">G</div>
                 <div>
-                    <div style="font-size: 0.8rem; font-weight: bold;">The Gilded Plate</div>
-                    <div style="font-size: 0.6rem; color: var(--gold); font-weight: bold;">PREMIUM TIER</div>
+                    <div style="font-size: 0.8rem; font-weight: 700;">The Gilded Plate</div>
+                    <div style="font-size: 0.6rem; color: var(--gold); font-weight: 800;">PREMIUM TIER</div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main id="content">
+    <main>
         <header>
-            <h1 style="font-family: serif;">House Overview</h1>
-            <p>Operational excellence at a glance.</p>
+            <h1>House Overview</h1>
+            <p class="subtitle">Operational excellence at a glance.</p>
         </header>
 
-        <div class="grid">
-            <div class="stat-card">
-                <p>Guest Rating</p>
-                <h3>4.8</h3>
-                <span class="trend trend-up">↑ +0.4 vs prev</span>
+        <div class="stats-grid">
+            <div class="card">
+                <div class="card-label">Guest Rating</div>
+                <div class="card-value">4.8</div>
+                <div class="trend-tag">↑ +0.4 vs prev</div>
             </div>
-            <div class="stat-card">
-                <p>No-Show Rate</p>
-                <h3>8.4%</h3>
-                <span class="trend" style="color: #a83232;">↓ -6.2% vs prev</span>
+            <div class="card">
+                <div class="card-label">No-Show Frequency</div>
+                <div class="card-value">8.4%</div>
+                <div class="trend-tag" style="background:#fef2f2; color:#b91c1c;">↓ -6.2% vs prev</div>
             </div>
-            <div class="stat-card">
-                <p>Utilization</p>
-                <h3>82%</h3>
-                <span class="trend trend-up">↑ +12.4% vs prev</span>
+            <div class="card">
+                <div class="card-label">Cover Utilization</div>
+                <div class="card-value">82%</div>
+                <div class="trend-tag">↑ +12.4% vs prev</div>
             </div>
-            <div class="stat-card">
-                <p>Revenue Gain</p>
-                <h3>$15.4k</h3>
-                <span class="trend trend-up">↑ +18% vs prev</span>
+            <div class="card">
+                <div class="card-label">Revenue Gain</div>
+                <div class="card-value">$15.4k</div>
+                <div class="trend-tag">↑ +18% vs prev</div>
             </div>
         </div>
 
-        <div class="reservation-layout">
-            <div class="table-container">
-                <div style="padding: 20px; font-weight: bold; border-bottom: 1px solid #f5f5f4;">Recent Reservations</div>
+        <div class="content-split">
+            <div class="table-wrap">
+                <div style="padding: 22px; font-weight: 800; font-size: 0.9rem; border-bottom: 1px solid #f5f5f4;">Confirmed Covers</div>
                 <table>
                     <thead>
                         <tr>
                             <th>Guest Profile</th>
                             <th>Covers</th>
-                            <th>Service Time</th>
+                            <th>Time</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -248,34 +268,35 @@
                             <td>David Chen</td>
                             <td>4</td>
                             <td>19:30</td>
-                            <td><span class="status-pill">Confirmed</span></td>
+                            <td><span style="color: #047857; font-weight: 800; font-size: 0.7rem; text-transform: uppercase;">Confirmed</span></td>
                         </tr>
                         <tr>
                             <td>Sarah Miller</td>
                             <td>2</td>
                             <td>20:15</td>
-                            <td><span class="status-pill">Confirmed</span></td>
+                            <td><span style="color: #047857; font-weight: 800; font-size: 0.7rem; text-transform: uppercase;">Confirmed</span></td>
                         </tr>
                         <tr>
                             <td>James Wilson</td>
                             <td>6</td>
                             <td>18:00</td>
-                            <td><span class="status-pill" style="background:#fff7ed; color:#c2410c;">Pending</span></td>
+                            <td><span style="color: #c2410c; font-weight: 800; font-size: 0.7rem; text-transform: uppercase;">Arriving</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="ai-concierge">
-                <h3 style="font-family: serif; margin-top: 0;">Concierge AI</h3>
-                <p style="font-size: 0.8rem; color: var(--stone-400); margin-bottom: 1.5rem;">Operational Relay Active</p>
+            <div class="ai-sidebar">
+                <h3 class="ai-title">Concierge AI</h3>
+                <p style="font-size: 0.75rem; color: #777; margin-bottom: 1.5rem; font-weight: 600;">Operational Relay Active</p>
                 
-                <button class="ai-btn">DINNER SUMMARY</button>
-                <button class="ai-btn">STAFF BRIEFING</button>
-                <button class="ai-btn">VIP PATTERNS</button>
+                <button class="ai-action">DINNER SUMMARY</button>
+                <button class="ai-button ai-action">STAFF BRIEFING</button>
+                <button class="ai-action">VIP PATTERNS</button>
 
-                <div style="margin-top: 2rem; font-size: 0.8rem; color: #ccc; border-top: 1px solid #333; padding-top: 1rem;">
-                    <strong>AI Note:</strong> 4 covers confirmed for tonight. Peak utilization expected at 19:30. Focus on VIP Sarah Miller.
+                <div class="ai-output">
+                    <strong>System Intelligence:</strong><br>
+                    Current data reflects 4 covers confirmed for tonight. Peak utilization expected at 19:30. Sarah Miller is a returning VIP; suggest corner table 4.
                 </div>
             </div>
         </div>
