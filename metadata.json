@@ -1,0 +1,8 @@
+{
+  "name": "DineLogic: Professional Restaurant Intelligence",
+  "description": "An LLM-powered management suite for automated reservations and professional review management.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
