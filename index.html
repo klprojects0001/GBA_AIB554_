@@ -27,6 +27,9 @@
       h1, h2, h3, .font-serif { 
         font-family: 'Playfair Display', serif; 
       }
+      .glass-sidebar {
+        background: linear-gradient(180deg, #1a1c18 0%, #121411 100%);
+      }
       .card-gradient {
         background: linear-gradient(135deg, #ffffff 0%, #fcfaf5 100%);
       }
@@ -37,7 +40,6 @@
 
     <script src="https://unpkg.com/react@19/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js"></script>
-    
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body class="antialiased">
@@ -46,34 +48,108 @@
     <script type="text/babel">
         const { useState } = React;
 
+        // --- Dashboard Components ---
+        
+        const SidebarItem = ({ label, active }) => (
+            <div className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all ${active ? 'bg-[#d4af37] text-white' : 'text-gray-400 hover:bg-white/10'}`}>
+                <div className="w-5 h-5 border border-current rounded-sm"></div>
+                <span className="font-medium">{label}</span>
+            </div>
+        );
+
+        const StatCard = ({ title, value, trend }) => (
+            <div className="card-gradient p-6 rounded-2xl border border-gray-100 premium-shadow">
+                <p className="text-sm text-gray-500 font-medium uppercase tracking-wider">{title}</p>
+                <h3 className="text-3xl font-bold mt-2 text-[#1a1c18]">{value}</h3>
+                <p className="text-green-600 text-sm mt-2 font-semibold">↑ {trend}</p>
+            </div>
+        );
+
+        // --- Main App ---
+
         function App() {
-            return (
-                <div className="min-h-screen flex items-center justify-center p-4">
-                    <div className="card-gradient p-8 md:p-12 rounded-2xl premium-shadow border border-[#d4af37]/20 text-center max-w-lg w-full">
-                        <h1 className="text-5xl font-bold text-[#1a1c18] mb-4">DineLogic</h1>
-                        <div className="h-1 w-20 bg-[#d4af37] mx-auto mb-6"></div>
-                        <p className="text-lg text-gray-600 mb-8 italic">
-                            Culinary Intelligence System is Active
-                        </p>
-                        
-                        <div className="space-y-4">
+            const [isInitialized, setIsInitialized] = useState(false);
+
+            // 1. Splash Screen
+            if (!isInitialized) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="card-gradient p-12 rounded-2xl premium-shadow border border-[#d4af37]/20 text-center max-w-lg">
+                            <h1 className="text-5xl font-bold text-[#1a1c18] mb-4">DineLogic</h1>
+                            <div className="h-1 w-20 bg-[#d4af37] mx-auto mb-6"></div>
+                            <p className="text-lg text-gray-600 mb-8 italic text-serif">Culinary Intelligence for Modern Kitchens</p>
                             <button 
-                                onClick={() => alert('Kitchen Initialization Sequence Started...')}
-                                className="w-full px-8 py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] transition-all transform hover:scale-105 active:scale-95 shadow-lg"
+                                onClick={() => setIsInitialized(true)}
+                                className="px-10 py-4 bg-[#1a1c18] text-[#d4af37] rounded-xl font-bold hover:bg-[#2d5a27] transition-all shadow-lg active:scale-95"
                             >
-                                Initialize Kitchen
+                                Enter Dashboard
                             </button>
-                            
-                            <p className="text-xs uppercase tracking-widest text-gray-400 font-semibold">
-                                Powered by Gemini AI
-                            </p>
                         </div>
                     </div>
+                );
+            }
+
+            // 2. Main Dashboard
+            return (
+                <div className="flex min-h-screen">
+                    {/* Sidebar */}
+                    <aside className="w-64 glass-sidebar p-6 flex flex-col hidden md:flex">
+                        <h2 className="text-[#d4af37] text-2xl font-serif font-bold mb-10 px-3 italic">DineLogic</h2>
+                        <nav className="space-y-2 flex-1">
+                            <SidebarItem label="Kitchen Overview" active />
+                            <SidebarItem label="Menu Optimizer" />
+                            <SidebarItem label="Inventory" />
+                            <SidebarItem label="AI Insights" />
+                        </nav>
+                        <div className="pt-6 border-t border-white/10 text-gray-500 text-xs">
+                            v1.0.4 | Secure Mode
+                        </div>
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1 p-8 overflow-y-auto">
+                        <header className="flex justify-between items-center mb-8">
+                            <div>
+                                <h1 className="text-3xl font-bold text-[#1a1c18]">Executive Dashboard</h1>
+                                <p className="text-gray-500">Welcome back, Chef. Here is your daily summary.</p>
+                            </div>
+                            <div className="flex space-x-4">
+                                <button className="bg-white p-2 rounded-full border border-gray-200 premium-shadow">🔔</button>
+                                <div className="w-10 h-10 rounded-full bg-[#d4af37] flex items-center justify-center text-white font-bold">JD</div>
+                            </div>
+                        </header>
+
+                        {/* Grid Stats */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <StatCard title="Daily Revenue" value="$4,280" trend="12% vs yesterday" />
+                            <StatCard title="Table Turnover" value="42 min" trend="5% faster" />
+                            <StatCard title="Food Waste" value="2.4%" trend="8% decrease" />
+                        </div>
+
+                        {/* Menu Table Placeholder */}
+                        <div className="card-gradient rounded-2xl border border-gray-100 premium-shadow p-6">
+                            <h3 className="text-xl font-bold mb-6 font-serif">Top Performing Dishes</h3>
+                            <div className="space-y-4">
+                                {[
+                                    { name: "Wagyu Ribeye", orders: 48, profit: "+$1,200" },
+                                    { name: "Truffle Risotto", orders: 36, profit: "+$840" },
+                                    { name: "Seared Scallops", orders: 29, profit: "+$610" }
+                                ].map((item, i) => (
+                                    <div key={i} className="flex justify-between items-center p-4 bg-white/50 rounded-xl border border-gray-50">
+                                        <span className="font-semibold text-[#1a1c18]">{item.name}</span>
+                                        <div className="flex space-x-8">
+                                            <span className="text-gray-500">{item.orders} orders</span>
+                                            <span className="text-[#2d5a27] font-bold">{item.profit}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </main>
                 </div>
             );
         }
 
-        // Mounting logic for React 19
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
